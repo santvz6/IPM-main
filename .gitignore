@@ -1,0 +1,10 @@
+# Ignorar todos los pycache de Python
+__pycache__/
+**/__pycache__/
+
+# Entornos virtuales
+venv/
+.venv/
+
+# Archivos específicos
+*.task
