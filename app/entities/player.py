@@ -12,6 +12,8 @@ class Player(Entity):
         self.sock.bind(("127.0.0.1", 5005))
         self.sock.setblocking(False)
 
+        self.speed = 100
+
         # steering actual
         self.steering = 0
 
@@ -33,7 +35,6 @@ class Player(Entity):
 
         if self.steering != 9999 and self.steering != 8888:
             self.x += self.steering * time.dt * 0.7
-
 
         # límites
         self.x = clamp(self.x, -5, 5)

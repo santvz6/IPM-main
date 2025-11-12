@@ -1,7 +1,7 @@
 # entities/power/power.py
 from ursina import *
 
-class Power(Entity):
+class _Power(Entity):
     def __init__(self, game, model="cube", position=(0,0,0), scale=1, rotation=0):
         super().__init__(
             model=model,
