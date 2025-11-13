@@ -9,7 +9,7 @@ class Difficulty:
         # parámetros base
         self.spawn_interval = 2.0
         self.max_enemies = 5
-        self._max_enemies = 5
+        self._max_enemies = 6
 
         # tipos de coche: 1=fácil, 2=normal, 3=difícil, 4=especial
         self.car_types = {

@@ -30,6 +30,7 @@ class CoronaPower(_Power):
         original_speed = self.game.player.speed
 
         self.game.player.speed *= 1.5
+        camera.fov = 100
 
         # Hacer que la botella sea hija de la cámara
         self.parent = camera
@@ -66,9 +67,10 @@ class CoronaPower(_Power):
             DrunkEffect(duration=drunk_duration)
 
             # Restaurar la velocidad después de la duración
-            def restore_speed():
+            def restore_state():
                 self.game.player.speed = original_speed
-            invoke(restore_speed, delay=drunk_duration)
+                camera.fov = 90
+            invoke(restore_state, delay=drunk_duration)
 
 
             # --- Alteraciones aleatorias del jugador ---

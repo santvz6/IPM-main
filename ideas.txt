@@ -1,0 +1,4 @@
+· Música con IA
+· Añadir efecto distorsión (cámara + sonido)
+· Sirenas de policia
+· Meter sistema de vidas

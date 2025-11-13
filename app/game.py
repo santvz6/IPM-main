@@ -29,7 +29,7 @@ class Game(Entity):
         self.lanes = [-4.5 + i * self.lane_width for i in range(4)]
         
         # Entities
-        self.player = Player()
+        self.player = Player() # ¡Managers use self.player!
         self.difficulty = Difficulty()
         self.day_cycle = DayCycle()
         self.corona_power = CoronaPower(self, position=(0, 0.8, 0), scale= (0.12, 0.05, 0.12), rotation=(-12, 35, 0))
@@ -38,12 +38,11 @@ class Game(Entity):
         # Managers
         self.road_manager = RoadManager(game=self, road_length=40, num_segments=15)
         self.power_manager = PowerManager(game=self)
-        
         self.enemy_manager = EnemyManager(game=self)
 
         self.hitboxes = Hitboxes(player=self.player, enemies=self.enemy_manager.enemies, enabled=False)
         self.power_manager.add_power(self.corona_power)
-        
+
 
         # --- CAMARA ---
         camera.parent = self.player
@@ -60,7 +59,7 @@ class Game(Entity):
         dt = time.dt
 
         # -------------------------
-        # 2️⃣ ACTUALIZAR CICLO DÍA / NOCHE
+        # ACTUALIZAR CICLO DÍA / NOCHE
         # -------------------------
         sky_color, amb_color, sun_color, sun_angle = self.day_cycle.update()
         self.sky.color = sky_color
