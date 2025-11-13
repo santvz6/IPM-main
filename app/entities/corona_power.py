@@ -11,7 +11,7 @@ class CoronaPower(_Power):
             position=position,
             model=random.choice(os.listdir("app/assets/models/powers")),
             scale=scale,
-            rotation=rotation
+            rotation=rotation,
         )
         self.activated = False
 
