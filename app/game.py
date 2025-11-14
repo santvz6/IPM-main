@@ -30,10 +30,10 @@ class Game(Entity):
         self.corona_power = CoronaPower(self, position=(0, 0.8, 0), scale= (0.12, 0.05, 0.12), rotation=(-12, 35, 0))
 
         # Config
-        self.lives = Lives(game=self, heart_texture= "assets/textures/heart.png", max_lives=3)
+        self.lives = Lives(game=self, heart_texture= "assets/textures/heart.png", max_lives=10)
         self.difficulty = Difficulty()
         self.day_cycle = DayCycle()
-        self.music = MusicPlayer(folder_path="app/assets/sfx", volume=0.0)
+        self.music = MusicPlayer(folder_path="app/assets/sfx", volume=0.5)
         self.crash = Crash(self)
         
 

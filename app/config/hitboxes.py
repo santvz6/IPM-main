@@ -23,9 +23,6 @@ class Hitboxes(Entity):
             render_queue=2
         )
 
-
-        
-        # Cajas para enemigos
         self.enemy_boxes = []
 
 

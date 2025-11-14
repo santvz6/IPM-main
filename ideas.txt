@@ -2,3 +2,4 @@
 · Añadir efecto distorsión (cámara + sonido)
 · Sirenas de policia
 · Meter sistema de vidas
+· Meter cuantos metros has recorrido

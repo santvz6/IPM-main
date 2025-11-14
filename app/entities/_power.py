@@ -21,9 +21,5 @@ class _Power(Entity):
     def update(self):
         self.floating_animation()
 
-        # Si el jugador está cerca, intenta activarse
-        if distance(self.position, self.game.player.position) < 2:
-            self.try_activate()
-
     def try_activate(self):
         pass  # implementado en subconclases

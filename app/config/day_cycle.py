@@ -8,10 +8,10 @@ class DayCycle:
         # Fases por defecto
         if phase_percentages is None:
             phase_percentages = {
-                'sunset': 0.1,
-                'night': 0.5,
-                'sunrise': 0.1,
-                'day': 0.3
+                "sunset": 0.1,
+                "night": 0.5,
+                "sunrise": 0.1,
+                "day": 0.3
             }
 
         self.phases = list(phase_percentages.keys())
@@ -64,7 +64,7 @@ class DayCycle:
         amb_color = lerp(self.amb_colors[phase_index], self.amb_colors[next_index], local_t)
         sun_color = lerp(self.sun_colors[phase_index], self.sun_colors[next_index], local_t)
 
-        sun_angle = lerp(-0.3, -1.0, t)  # movimiento opcional del sol
+        sun_angle = lerp(-0.3, -1.0, t)  # movimient del sol
 
         return sky_color, amb_color, sun_color, sun_angle
 

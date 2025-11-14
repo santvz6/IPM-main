@@ -26,6 +26,9 @@ class CoronaPower(_Power):
             self.on_pickup()
 
     def on_pickup(self):
+
+        for i in range(self.game.lives.current_lives, self.game.lives.max_lives):
+            invoke(self.game.lives.add_life, delay=i * 0.1)
         # Guardamos la velocidad original
         original_speed = self.game.player.initial_speed
 
@@ -42,18 +45,18 @@ class CoronaPower(_Power):
         drink_duration = 0.6   # inclinación inicial
         hold_duration = 0.8    # tiempo sosteniendo la botella inclinada
         toss_duration = 0.8    # tiempo para tirar la botella
-        drunk_duration = 15     # duración total del efecto borracho
+        drunk_duration = 15    # duración total del efecto borracho
 
-        # --- FASE 1: inclinar y acercar ---
+        # FASE 1: inclinar y acercar 
         self.animate_rotation(Vec3(-120, 0, 0), duration=drink_duration, curve=curve.linear)
         self.animate_position(Vec3(0.3, -0.3, 1.5), duration=drink_duration, curve=curve.linear)
         
-        # --- FASE 2: mantener inclinada ---
+        # FASE 2: mantener inclinada 
         def hold_bottle():
             self.animate_position(Vec3(0.3, -0.2, 1.5), duration=hold_duration, curve=curve.linear)
         invoke(hold_bottle, delay=drink_duration)
 
-        # --- FASE 3: tirar hacia un lado ---
+        # FASE 3: tirar hacia un lado
         def toss_bottle():
             self.animate_position(Vec3(1.5, -0.5, 3), duration=toss_duration, curve=curve.linear)
             self.animate_rotation(Vec3(-180, 0, 90), duration=toss_duration, curve=curve.linear)
@@ -61,19 +64,19 @@ class CoronaPower(_Power):
             invoke(destroy, self, delay=toss_duration)
         invoke(toss_bottle, delay=drink_duration + hold_duration)
 
-        # --- EFECTO BORRACHO ---
+        # EFECTO BORRACHO
         def start_drunk_effect():
-            # Creamos la instancia de DrunkEffect con duración deseada
+            # Creamos la instancia de DrunkEffect
             DrunkEffect(duration=drunk_duration)
 
-            # Restaurar la velocidad después de la duración
+            # Restauramos la velocidad después de la duración
             def restore_state():
                 self.game.player.initial_speed = original_speed
                 camera.fov = 90
             invoke(restore_state, delay=drunk_duration)
 
 
-            # --- Alteraciones aleatorias del jugador ---
+            # Alteraciones aleatorias del jugador
             def alter_player():
                 t = time.time() - start_time
                 if t > drunk_duration:

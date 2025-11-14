@@ -50,5 +50,5 @@ class Lives:
         self.invulnerable = False
 
     def game_over(self):
-        # Llamamos a la función de descontrol en Game
+        # Llamamos a la función de crash en Game
         self.game.start_crash_sequence()
