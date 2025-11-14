@@ -31,14 +31,6 @@ class EnemyManager:
                 self.enemies.remove(enemy)
                 destroy(enemy)
 
-        # Detectar colisiones simples
-        for enemy in self.enemies:
-            if (self.game.player.position - enemy.position).length() < self.game.hitboxes.enemy_hitbox_width / 2:
-                self.game.collision_overlay.color = color.rgba32(255, 0, 0, 80)
-
-            #if distance(enemy.position, self.player.position) < self.hitboxes.enemy_hitbox_width / 2:
-               #self.collision_overlay.color = color.rgba32(255, 0, 0, 80)
-
         # Spawn de enemigos
         self.spawn_timer -= dt
         if self.spawn_timer <= 0:

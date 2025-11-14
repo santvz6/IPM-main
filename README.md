@@ -34,3 +34,4 @@ En este juego:
 ```bash
 git clone https://github.com/santvz6/IPM-main.git
 cd IPM-main
+```

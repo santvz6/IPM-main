@@ -27,9 +27,9 @@ class CoronaPower(_Power):
 
     def on_pickup(self):
         # Guardamos la velocidad original
-        original_speed = self.game.player.speed
+        original_speed = self.game.player.initial_speed
 
-        self.game.player.speed *= 1.5
+        self.game.player.initial_speed = self.game.player.speed * 2.5
         camera.fov = 100
 
         # Hacer que la botella sea hija de la cámara
@@ -68,7 +68,7 @@ class CoronaPower(_Power):
 
             # Restaurar la velocidad después de la duración
             def restore_state():
-                self.game.player.speed = original_speed
+                self.game.player.initial_speed = original_speed
                 camera.fov = 90
             invoke(restore_state, delay=drunk_duration)
 

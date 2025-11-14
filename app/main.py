@@ -9,7 +9,7 @@ def main():
     sky = Sky(color=color.rgb32(255, 160, 120))
 
     # --- LUZ AMBIENTAL ---
-    ambient = AmbientLight(color=color.rgb32(70, 40, 30))
+    ambient = AmbientLight(color=color.rgb32(70, 40, +30))
 
     # --- SOL ---
     sun = DirectionalLight(shadows=False)

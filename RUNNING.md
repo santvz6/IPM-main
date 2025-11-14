@@ -1,3 +1,5 @@
+# RUNNING.md
+
 La aplicación cuenta con dos formas distintas de juego. Para la primera de ellas, la más simple, no será necesario utilizar conda ni mediapipe; para la segunda, deberemos crear un segundo entorno virtual e instalar las correspondientes dependencias
 
 

@@ -21,8 +21,9 @@ class Difficulty:
 
     def update(self, dt):
         self.time_elapsed += dt
-        self.level = 1 + int(self.time_elapsed // 1)
-        print("level: ", self.level)
+        self.float_level = 1 + self.time_elapsed / 10
+        self.level = int(self.float_level)
+        print("level: ", self.float_level)
 
         # ajustamos spawn_interval y velocidad según el nivel
         self.spawn_interval = max(0.5, 2.0 * (0.95 ** self.level))
@@ -30,10 +31,10 @@ class Difficulty:
 
         # ajustamos probabilidades de coches según el nivel
         # ejemplo: a mayor nivel, aumenta la probabilidad de coches difíciles y especiales
-        easy_prob = max(0.3, 0.7 - 0.05 * self.level)
-        normal_prob = min(0.4, 0.2 + 0.02 * self.level)
-        hard_prob = min(0.25, 0.08 + 0.02 * self.level)
-        special_prob = 1.0 - (easy_prob + normal_prob + hard_prob)
+        easy_prob = max(0.0, 0.7 - 0.05 * self.level)   # 0.3
+        normal_prob = min(0.0, 0.2 + 0.02 * self.level) # 0.4
+        hard_prob = min(0.0, 0.08 + 0.02 * self.level) # 0.25
+        special_prob = 1.0 # - (easy_prob + normal_prob + hard_prob)
 
         self.car_types = {
             1: easy_prob,

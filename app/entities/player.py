@@ -12,7 +12,8 @@ class Player(Entity):
         self.sock.bind(("127.0.0.1", 5005))
         self.sock.setblocking(False)
 
-        self.speed = 100
+        self.initial_speed = 100
+        self.speed = self.initial_speed
 
         # steering actual
         self.steering = 0

@@ -31,6 +31,7 @@ class Enemy(Entity):
         self.game = game
         self.lane_x = lane_x
 
+
     # ---------------------------------------------------------
     #   UPDATE DEL ENEMIGO (MOVIMIENTO + RECICLADO)
     # ---------------------------------------------------------
