@@ -5,10 +5,11 @@ class Difficulty:
     def __init__(self):
         self.time_elapsed = 0.0
         self.level = 1
+        self.level_interval = 15
 
         # Enemigos
         self.spawn_interval = 2.0
-        self.max_enemies = 5
+        self.max_enemies = None
         self._max_enemies = 6
 
         self.car_types = {
@@ -20,7 +21,7 @@ class Difficulty:
 
     def update(self, dt):
         self.time_elapsed += dt
-        self.float_level = 1 + self.time_elapsed / 60
+        self.float_level = 1 + self.time_elapsed / self.level_interval
         self.level = int(self.float_level)
 
         # ajustamos spawn_interval y velocidad según el nivel

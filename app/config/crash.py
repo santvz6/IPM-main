@@ -36,7 +36,7 @@ class Crash:
 
         # Hacer que el texto crezca suavemente
         self.text.enabled = True
-        self.text.text = f"TE HAS ESTRELLADO\n{(self.game.player.z*10**-2):.0f}m"
+        self.text.text = f"TE HAS ESTRELLADO\n{(self.game.player.z*10**-1):.0f}m"
         self.text.scale = lerp(self.text.scale, Vec3(3, 3, 3), dt * 2)
 
 

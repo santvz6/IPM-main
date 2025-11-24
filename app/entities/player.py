@@ -26,16 +26,15 @@ class Player(Entity):
         except BlockingIOError:
             pass
 
-      
+        if self.steering == 9999 or self.steering == 8888:
+            return
+        
         if held_keys['a']:
             self.steering = -6
         if held_keys['d']:
             self.steering = 6
-        if held_keys["h"]:
-            self.steering = 9999
-
-        if self.steering != 9999 and self.steering != 8888:
-            self.x += self.steering * time.dt * 0.7
+     
+        self.x += self.steering * time.dt * 0.7
 
         # límites
         self.x = clamp(self.x, -5, 5)

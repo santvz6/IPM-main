@@ -20,7 +20,7 @@ class CoronaPower(_Power):
             return 
         
         # steering especial del jugador
-        if self.game.player.steering == 9999:
+        if self.game.player.steering == 9999 or held_keys["h"]:
             self.activated = True
             print("¡Poder Corona obtenido!")
             self.on_pickup()

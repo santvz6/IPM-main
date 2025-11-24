@@ -3,19 +3,23 @@ import mediapipe as mp
 import socket
 import time
 
+
+# Socket
 HOST = "127.0.0.1"
 PORT = 5005
-
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
+# Mediapipe
 mp_pose = mp.solutions.pose
 pose = mp_pose.Pose()
 
+# cv2
 cap = cv2.VideoCapture(0)
 
-# ---- COOLDOWN ----
+
+# MediaPipe logic
 last_trigger_time = 0
-cooldown = 1.0  # segundos
+cooldown = 1.0  # trigger cooldown (seconds)
 
 while True:
     ret, frame = cap.read()
@@ -23,16 +27,20 @@ while True:
         continue
 
     frame = cv2.flip(frame, 1)
-    h, w, _ = frame.shape  # dimensiones
+    h, w, _ = frame.shape  # dimensions
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     result = pose.process(rgb)
 
     steering = 0
     special_value = None
 
-    # ---- HITBOX MÁS PEQUEÑA ----
-    top = 0.2      # antes 0.25
-    side = 0.2     # antes 0.25
+    # Square Hitbox
+    top_right = 0.2    
+    side_right = 0.2   
+
+    top_left = 0.3    
+    side_left = 0.4    
+
 
     if result.pose_landmarks:
         lm = result.pose_landmarks.landmark
@@ -40,35 +48,30 @@ while True:
         left = lm[mp_pose.PoseLandmark.LEFT_WRIST]
         right = lm[mp_pose.PoseLandmark.RIGHT_WRIST]
 
-        # Coordenadas en píxeles
+        # Pixel coordinates
         rx, ry = int(right.x * w), int(right.y * h)
         lx, ly = int(left.x * w), int(left.y * h)
 
-        # Dibujar puntos
-        cv2.circle(frame, (rx, ry), 10, (255, 0, 0), -1)  # derecha
-        cv2.circle(frame, (lx, ly), 10, (0, 255, 0), -1)  # izquierda
+        # Joint Circle Draw
+        cv2.circle(frame, (rx, ry), 10, (255, 0, 0), -1)  # right
+        cv2.circle(frame, (lx, ly), 10, (0, 255, 0), -1)  # left
 
-        # Steering
-        steering = (left.y - right.y) * 10
+        # Rectangle Area Zone Draw
+        right_zone_y_max = int(top_right * h)
+        right_zone_x_min = int((1 - side_right) * w)
+        cv2.rectangle(frame, (right_zone_x_min, 0), (w, right_zone_y_max), (0, 0, 255), 2)
 
-        # ---- ZONAS OBJETIVO (más pequeñas) ----
-        zone_y_max = int(top * h)
+        left_zone_y_max = int(top_left * h)
+        left_zone_x_max = int(side_left * w)
+        cv2.rectangle(frame, (0, 0), (left_zone_x_max, left_zone_y_max), (0, 255, 255), 2)
 
-        # Derecha
-        zone_x_min_r = int((1 - side) * w)
-        cv2.rectangle(frame, (zone_x_min_r, 0), (w, zone_y_max), (0, 0, 255), 2)
-
-        # Izquierda
-        zone_x_max_l = int(side * w)
-        cv2.rectangle(frame, (0, 0), (zone_x_max_l, zone_y_max), (0, 255, 255), 2)
-
-        # ---- DETECTAR SOLO SI NO ESTÁ EN COOLDOWN ----
+        # Only Detects if it is NOT in Cooldown
         current_time = time.time()
         if current_time - last_trigger_time >= cooldown:
 
-            # GESTO DERECHA (usando tu condición, pero con hitbox más pequeña)
-            left_up = left.y < top
-            left_side = left.x > (1 - side)
+            # Right Detection
+            left_up = left.y < top_right
+            left_side = left.x > (1 - side_right)
 
             if left_up and left_side:
                 special_value = 9999
@@ -76,15 +79,20 @@ while True:
                 cv2.putText(frame, "GESTO DERECHA!", (50, 50),
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 3)
 
-            # GESTO IZQUIERDA
-            right_up = right.y < top
-            right_side = right.x < side
+            # Left detection
+            right_up = right.y < top_left and left.y < top_left
+            right_side = right.x < side_left and left.x < side_left
 
-            if right_up and right_side:
+           
+
+            if (right_up and right_side):
                 special_value = 8888
                 last_trigger_time = current_time
                 cv2.putText(frame, "GESTO IZQUIERDA!", (50, 100),
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 3)
+
+    # Steering Value
+    steering = (left.y - right.y) * 10
 
     # ---- ENVIAR ----
     if special_value is not None:

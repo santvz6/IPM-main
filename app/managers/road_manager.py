@@ -9,7 +9,7 @@ class RoadManager:
         self.game = game
         self.road_length = road_length
         self.num_segments = num_segments
-        self.is_night = is_night  # si es noche, se encienden las farolas
+        self.is_night = is_night  # si es de noche, se encienden las farolas
 
         self.road_segments = []
         self.terrain_left = []
@@ -39,9 +39,9 @@ class RoadManager:
         rotation_y = 0
 
         for _ in range(5):
-            category_name = random.choice(['buildings', 'hotels', 'houses'])
-            if category_name in ['buildings', 'hotels']:
-                category = buildings if category_name == 'buildings' else hotels
+            category_name = random.choice(["buildings", "hotels", "houses"])
+            if category_name in ["buildings", "hotels"]:
+                category = buildings if category_name == "buildings" else hotels
                 position_x = 9
             else:
                 category = houses
@@ -80,7 +80,7 @@ class RoadManager:
 
             # --- CARRETERA ---
             road = Entity(
-                model='plane',
+                model="plane",
                 texture="assets/textures/road.png",
                 scale=(road_width, 0.1, self.road_length),
                 position=(0, 0, z_base),
@@ -92,9 +92,9 @@ class RoadManager:
 
             # --- ACERAS ---
             sidewalk_pos_x = road_width / 2 + sidewalk_width / 2
-            left_sidewalk = Entity(model='cube', color=color.gray, scale=(sidewalk_width, 0.1, self.road_length),
+            left_sidewalk = Entity(model="cube", color=color.gray, scale=(sidewalk_width, 0.1, self.road_length),
                                    position=(-sidewalk_pos_x, 0.05, z_base), shader=lit_with_shadows_shader)
-            right_sidewalk = Entity(model='cube', color=color.gray, scale=(sidewalk_width, 0.1, self.road_length),
+            right_sidewalk = Entity(model="cube", color=color.gray, scale=(sidewalk_width, 0.1, self.road_length),
                                     position=(sidewalk_pos_x, 0.05, z_base), shader=lit_with_shadows_shader)
             self.sidewalks_left.append(left_sidewalk)
             self.sidewalks_right.append(right_sidewalk)
@@ -104,9 +104,9 @@ class RoadManager:
 
             # --- HIERBA ---
             grass_pos_x = sidewalk_pos_x + sidewalk_width / 2 + grass_width / 2
-            left_grass = Entity(model='cube', color='545e28', scale=(grass_width, 0.1, self.road_length),
+            left_grass = Entity(model="cube", color="545e28", scale=(grass_width, 0.1, self.road_length),
                                 position=(-grass_pos_x, 0.05, z_base), shader=lit_with_shadows_shader)
-            right_grass = Entity(model='cube', color='545e28', scale=(grass_width, 0.1, self.road_length),
+            right_grass = Entity(model="cube", color="545e28", scale=(grass_width, 0.1, self.road_length),
                                  position=(grass_pos_x, 0.05, z_base), shader=lit_with_shadows_shader)
             self.grass_left.append(left_grass)
             self.grass_right.append(right_grass)
@@ -179,7 +179,7 @@ class RoadManager:
         self.recycle_segments(self.sidewalks_left, player_z)
         self.recycle_segments(self.sidewalks_right, player_z)
 
-        for obj_list, max_attr in [(self.props, 'max_props_z'), (self.structures, 'max_structures_z')]:
+        for obj_list, max_attr in [(self.props, "max_props_z"), (self.structures, "max_structures_z")]:
             for obj in obj_list:
                 if obj.z < player_z - 5:
                     max_z = getattr(self, max_attr)

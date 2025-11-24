@@ -4,5 +4,6 @@ from .hitboxes import Hitboxes
 from .music_player import MusicPlayer
 from .lives import Lives
 from .crash import Crash
+from .leave_car import LeaveCar
 
-__all__ = ["DayCycle", "Difficulty", "Hitboxes", "MusicPlayer", "Lives", "Crash"]
+__all__ = ["DayCycle", "Difficulty", "Hitboxes", "MusicPlayer", "Lives", "Crash", "LeaveCar"]

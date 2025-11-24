@@ -35,6 +35,8 @@ class Game(Entity):
         self.day_cycle = DayCycle()
         self.music = MusicPlayer(folder_path="app/assets/sfx", volume=0.5)
         self.crash = Crash(self)
+        self.leave_car = LeaveCar(self)
+
         
 
         # Managers
@@ -83,10 +85,21 @@ class Game(Entity):
 
         self.difficulty.update(dt)
         self.music.update()
+        self.leave_car.update(dt)
 
 
         self.player.update()
-        self.player.speed = min(400, max(1, self.player.initial_speed * (self.difficulty.float_level / 2)))
+        if self.leave_car.active:   # Player Running
+            self.player.speed = min(70, max(1, self.player.initial_speed / 2 * (self.difficulty.float_level / 2)))
+            # Before Enemy Manager Update | After Difficulty Update
+            self.difficulty.car_types = {
+                1: 0.1,
+                2: 0.15,
+                3: 0.25,
+                4: 0.5,
+            }
+        else:                       # Player Driving
+            self.player.speed = min(400, max(1, self.player.initial_speed * (self.difficulty.float_level / 2)))
         self.player.z += dt * self.player.speed
 
         self.power_manager.update()

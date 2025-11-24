@@ -1,6 +1,6 @@
 # entities/power/power.py
 from ursina import *
-from ursina.shaders import lit_with_shadows_shader
+from ursina.shaders import lit_with_shadows_shader, unlit_shader
 
 class _Power(Entity):
     def __init__(self, game, model="cube", position=(0,0,0), scale=1, rotation=0):
@@ -9,7 +9,7 @@ class _Power(Entity):
             position=position,
             scale=scale,
             rotation=rotation,
-            shader=lit_with_shadows_shader
+            shader=unlit_shader
         )
         self.game = game
         self.elapsed = 0

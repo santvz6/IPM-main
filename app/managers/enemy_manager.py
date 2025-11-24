@@ -14,13 +14,13 @@ class EnemyManager:
 
     def update(self, dt):
 
-        # Eliminar enemigos destruidos antes de cualquier otro cálculo
+        # Eliminamos enemigos destruidos antes de cualquier otro cálculo
         self.enemies = [e for e in self.enemies if e.enabled]
-        self.game.collision_overlay.color = lerp(self.game.collision_overlay.color, color.rgba32(255, 0, 0, 0), dt * 5)
+        self.game.collision_overlay.color = lerp(self.game.collision_overlay.color, color.rgba32(255, 0, 0, 0), dt * 5) # mover al update del game?
 
-        # Actualizar enemigos existentes
+        # Actualizamos enemigos existentes
         to_destroy = []
-        for enemy in self.enemies[:]:
+        for enemy in self.enemies[:]: # utilizar .copy()?
             if enemy.enabled:
                 enemy.update()
             else:
@@ -31,7 +31,7 @@ class EnemyManager:
                 self.enemies.remove(enemy)
                 destroy(enemy)
 
-        # Spawn de enemigos
+        # Spawn de enemigos cada cierto tiempo
         self.spawn_timer -= dt
         if self.spawn_timer <= 0:
             self.spawn_enemy()
@@ -49,16 +49,24 @@ class EnemyManager:
 
         base_z = self.game.player.z + self.enemy_spawn_distance
 
+        # intentos de sapwneo válido
         for _ in range(10):
             z_position = base_z + random.uniform(0, 80)
-            if any(abs(e.z - z_position) < 20 for e in self.enemies):
+
+            ### valid confirmation 1
+            # Z distance between enemies
+            if any(abs(e.z - z_position) < 20 for e in self.enemies): 
                 continue
 
+            ### valid cofirmation 2
+            # explanation
             band = [e for e in self.enemies if abs(e.z - z_position) < 10]
             occupied = set(min(range(4), key=lambda i: abs(e.x - self.game.lanes[i])) for e in band)
-            if len(occupied) >= 3:
+            if len(occupied) >= 3: 
                 continue
-
+            
+            ### valid confirmation 3
+            # explanation
             free = [i for i in range(4) if i not in occupied]
             if not free:
                 continue
@@ -66,10 +74,8 @@ class EnemyManager:
             lane = random.choice(free)
             lane_x = self.game.lanes[lane]
 
-            # Elegir tipo de coche según dificultad
+            # Enemy Instance
             car_type = self.game.difficulty.choose_car_type()
-
-            # Crear enemigo con tipo
             enemy = Enemy(self.game, lane_x, z_position, car_type=car_type)
             self.enemies.append(enemy)
 
