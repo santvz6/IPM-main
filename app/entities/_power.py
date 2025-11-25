@@ -1,4 +1,8 @@
-# entities/power/power.py
+"""
+En un principio lo implementamos por si deicidiamos implementar futuros poderes.
+"""
+
+
 from ursina import *
 from ursina.shaders import lit_with_shadows_shader, unlit_shader
 

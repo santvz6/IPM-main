@@ -16,7 +16,8 @@ class DayCycle:
 
         self.phases = list(phase_percentages.keys())
         self.phase_durations = list(phase_percentages.values())
-        # generar acumulado para comparar fácilmente
+        
+        # generamos acumulado para comparar fácilmente
         self.phase_accum = []
         acc = 0
         for d in self.phase_durations:
@@ -46,11 +47,11 @@ class DayCycle:
     def update(self):
         self.day_time += time.dt * self.day_speed
         if self.day_time > 1:
-            self.day_time -= 1
+            self.day_time -= 1 # empezamos el ciclo
 
         t = self.day_time
 
-        # determinar fase actual y siguiente según phase_accum
+        # determinamos la fase actual y siguiente según phase_accum
         for i, end in enumerate(self.phase_accum):
             if t < end:
                 phase_index = i
@@ -69,5 +70,6 @@ class DayCycle:
         return sky_color, amb_color, sun_color, sun_angle
 
     def is_night(self):
+        """ Utilizado para desactivar shaders y establecer 'luz' en las farolas"""
         t = self.day_time
         return 0.05 < t < 0.3

@@ -5,18 +5,17 @@ class LeaveCar:
         self.game = game
         self.active = False
         self.progress = 0
-        self.duration = 2   # animación más rápida, estilo "salto"
+        self.duration = 2 
         
         self.original_cam_parent = None
         self.original_cam_pos = None
 
-        self.walk_timer = 0   # para el efecto caminar
+        self.walk_timer = 0   # para el efecto de caminar
 
     def on_activate(self):
         if self.active:
             return
         
-        print("Jugador SALTA por la ventana izquierda")
         self.active = True
         self.progress = 0
         
@@ -38,9 +37,8 @@ class LeaveCar:
         self.progress += dt / self.duration
         t = min(self.progress, 1.0)
 
-        # -------------------------
-        # Movimiento del salto (cámara)
-        # -------------------------
+
+        # Animación de salto
         exit_rot = Vec3(
             self.original_cam_rot.x,
             self.original_cam_rot.y,
@@ -57,31 +55,25 @@ class LeaveCar:
             camera.rotation = lerp(exit_rot, self.original_cam_rot, cam_t)
             
 
-        # -------------------------
-        # MOVIMIENTO DEL COCHE
-        # -------------------------
+       # Animación del coche al saltar
 
-        # 1) El coche se desplaza a la derecha cuando sales
+        # El coche se desplaza a la derecha cuando salimos
         car_right_offset = 1.4     # cuanto se mueve a la derecha
         self.game.steerwheel.x = lerp(0, car_right_offset, t)
         self.game.dashboard.x = lerp(0, car_right_offset, t)
 
-        # 2) El coche se aleja ligeramente hacia adelante
+        # El coche se aleja ligeramente hacia atras (para salir de cámara)
         car_forward_offset = -4.5   # distancia de alejamiento
         self.game.steerwheel.z = lerp(0, car_forward_offset, t)
         self.game.dashboard.z = lerp(0, car_forward_offset, t)
 
 
-        # ------------------------- 
-        # Fin de animación
-        # -------------------------
+        # Reset de la cámara al finalizar
         if t >= 1.0:
             camera.rotation = self.original_cam_rot
 
 
-         # -------------------------
-        # EFECTO CAMINAR (HEAD-BOB)
-        # -------------------------
+        # Efecto de caminar
         self.walk_timer += dt * 11   # velocidad del movimiento
-        bob_amount = 0.08          # amplitud del movimiento
+        bob_amount = 0.08            # amplitud del movimiento
         camera.y = self.original_cam_pos.y + math.sin(self.walk_timer) * bob_amount

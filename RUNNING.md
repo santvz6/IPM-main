@@ -39,8 +39,7 @@ pip install -r mediapipe/requirements.txt
 ```
 
 ```bash
-python mediapipe/
-download_models.py
+python mediapipe/download_models.py
 ```
 
 
@@ -56,3 +55,9 @@ python app/main.py
 ```bash
 python mediapipe/main.py
 ```
+
+
+# 3. Posibles fallos
+
+Al ejecutar `app/main.py` en Windows podemos encontrarnos un error debido a los archivos que se encuentran en la carpeta app/assets/sfx.
+Lo que deberemos hacer en este caso será eliminarlos para solucionar el problema. Lo único, es que nos quedaremos sin música.

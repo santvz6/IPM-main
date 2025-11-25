@@ -34,11 +34,11 @@ class Hitboxes(Entity):
         if not self.enabled:
             return
 
-        # Actualizar línea del jugador
+        # Actualizamos la línea del jugador
         self.player_line.position = self.player.position + Vec3(0, 0, self.player_hitbox_length/2)
 
 
-        # Crear nuevas cajas para enemigos que aparecieron
+        # Creamos nuevas cajas para enemigos que aparecieron
         while len(self.enemy_boxes) < len(self.enemies):
             e = self.enemies[len(self.enemy_boxes)]
             box = Entity(
@@ -53,7 +53,7 @@ class Hitboxes(Entity):
             box.scale_x = self.enemy_hitbox_width * 0.9
             self.enemy_boxes.append(box)
 
-        # Actualizar posiciones y eliminar los que ya no existen
+        # Actualizamos posiciones y eliminamos las que ya no existen
         for i in reversed(range(len(self.enemy_boxes))):
             if i >= len(self.enemies):
                 destroy(self.enemy_boxes[i])

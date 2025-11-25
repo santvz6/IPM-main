@@ -26,17 +26,20 @@ class EnemyManager:
             else:
                 to_destroy.append(enemy)
 
+        # Destruimos aquellos que deban serlo
         for enemy in to_destroy:
             if enemy in self.enemies:
                 self.enemies.remove(enemy)
                 destroy(enemy)
 
-        # Spawn de enemigos cada cierto tiempo
+        # Spawneamos enemigos cada cierto tiempo
         self.spawn_timer -= dt
         if self.spawn_timer <= 0:
             self.spawn_enemy()
             self.spawn_timer = self.game.difficulty.spawn_interval
 
+
+        # Llenamos de enemigos hasta que llegamos al límite 
         spawn_attempts = 0
         max_attempts = self.game.difficulty.max_enemies * 2
         while len(self.enemies) < self.game.difficulty.max_enemies and spawn_attempts < max_attempts:
@@ -59,14 +62,14 @@ class EnemyManager:
                 continue
 
             ### valid cofirmation 2
-            # explanation
-            band = [e for e in self.enemies if abs(e.z - z_position) < 10]
+            # Determinamos que carriles están ocupados por enemigos cercanos al posible
+            band = [e for e in self.enemies if abs(e.z - z_position) < 10] # contiene los enemigos cercanos al posible
             occupied = set(min(range(4), key=lambda i: abs(e.x - self.game.lanes[i])) for e in band)
             if len(occupied) >= 3: 
                 continue
             
             ### valid confirmation 3
-            # explanation
+            # Filtramos los carriles libres (con enemigos más lejanos a 10unidades)
             free = [i for i in range(4) if i not in occupied]
             if not free:
                 continue
@@ -74,7 +77,7 @@ class EnemyManager:
             lane = random.choice(free)
             lane_x = self.game.lanes[lane]
 
-            # Enemy Instance
+            # Instanciamso al enemigo
             car_type = self.game.difficulty.choose_car_type()
             enemy = Enemy(self.game, lane_x, z_position, car_type=car_type)
             self.enemies.append(enemy)

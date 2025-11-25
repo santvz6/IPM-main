@@ -101,7 +101,6 @@ class RoadManager:
             self.max_sidewalk_z = z_base
 
 
-
             # --- HIERBA ---
             grass_pos_x = sidewalk_pos_x + sidewalk_width / 2 + grass_width / 2
             left_grass = Entity(model="cube", color="545e28", scale=(grass_width, 0.1, self.road_length),
@@ -154,12 +153,12 @@ class RoadManager:
             cone.enabled = self.is_night
 
     def recycle_segments(self, segments, player_z):
-        # calcular max z de todos los segmentos actualmente visibles
+        # calculamos el max z de todos los segmentos actualmente visibles
         max_z = max(seg.z for seg in segments)
         for seg in segments:
             if seg.z + self.road_length < player_z - 5:
                 seg.z = max_z + self.road_length
-                max_z = seg.z  # actualizar para el siguiente segmento
+                max_z = seg.z  # actualizamos para el siguiente segmento
 
 
     def recycle_terrain(self, terrains, player_z):

@@ -21,12 +21,12 @@ class Game(Entity):
 
         self.collision_overlay = Entity(parent=camera.ui, model='quad', scale=(2,2), color=color.rgba32(255,0,0,0), shader= unlit_shader)
 
-        # --- CARRILES ---
+        # Carriles
         self.lane_width = 2.8
         self.lanes = [-4.5 + i * self.lane_width for i in range(4)]
         
         # Entities
-        self.player = Player() # ¡Managers use self.player!
+        self.player = Player() # ¡Managers usan self.player! (debemos instanciarlo antes)
         self.corona_power = CoronaPower(self, position=(0, 0.8, 0), scale= (0.12, 0.05, 0.12), rotation=(-12, 35, 0))
 
         # Config
@@ -37,7 +37,6 @@ class Game(Entity):
         self.crash = Crash(self)
         self.leave_car = LeaveCar(self)
 
-        
 
         # Managers
         self.road_manager = RoadManager(game=self, road_length=40, num_segments=15)
@@ -48,7 +47,7 @@ class Game(Entity):
         self.power_manager.add_power(self.corona_power)
 
 
-        # --- CAMARA ---
+        # Camera
         camera.parent = self.player
         camera.position = (0, 1.5, 0)
         camera.rotation = (0, 0, 0)
@@ -58,9 +57,8 @@ class Game(Entity):
     def start_crash_sequence(self):
         self.crash.active = True   
         
-    # ---------------------------------------------------------
-    #   UPDATE PRINCIPAL (ROBUSTO)
-    # ---------------------------------------------------------
+
+
     def update(self):
         dt = time.dt
 
@@ -68,9 +66,7 @@ class Game(Entity):
             self.crash.update(dt)
             return 
 
-        # -------------------------
-        # ACTUALIZAR CICLO DÍA / NOCHE
-        # -------------------------
+        # Actualización del Ciclo Diario
         sky_color, amb_color, sun_color, sun_angle = self.day_cycle.update()
         self.sky.color = sky_color
         self.ambient.color = amb_color
@@ -83,47 +79,45 @@ class Game(Entity):
         target_rotation = steer_value * 10
         self.steerwheel.rotation_z = lerp(self.steerwheel.rotation_z, target_rotation, dt * 5)
 
+        # Actualización de configs
         self.difficulty.update(dt)
         self.music.update()
         self.leave_car.update(dt)
 
-
+        # Actualización del jugador
         self.player.update()
-        if self.leave_car.active:   # Player Running
+        if self.leave_car.active:   # EL jugador esta corriendo
             self.player.speed = min(70, max(1, self.player.initial_speed / 2 * (self.difficulty.float_level / 2)))
-            # Before Enemy Manager Update | After Difficulty Update
+            # ¡Antes del Enemy Manager Update | Después del Difficulty Update! (para sobrescribir el valor de forma correcta)
             self.difficulty.car_types = {
                 1: 0.1,
                 2: 0.15,
                 3: 0.25,
                 4: 0.5,
             }
-        else:                       # Player Driving
-            self.player.speed = min(400, max(1, self.player.initial_speed * (self.difficulty.float_level / 2)))
+        else:                      # El jugador está conduciendo
+            self.player.speed = min(200, max(1, self.player.initial_speed * (self.difficulty.float_level / 2)))
         self.player.z += dt * self.player.speed
 
         self.power_manager.update()
         self.road_manager.update(self.player.z)
         self.enemy_manager.update(dt)
 
-        # -------------------------
-        # DETECTAR COLISIONES
-        # -------------------------
+
+        # Detección de colisiones
         for enemy in self.enemy_manager.enemies:
             if distance(enemy.position, self.player.position) < self.hitboxes.enemy_hitbox_width / 2:
                 self.collision_overlay.color = color.rgba32(255, 0, 0, 80)
                 self.lives.lose_life()
 
-        # -------------------------
-        # ACTUALIZAR HITBOXES (SEGURA)
-        # -------------------------
+
+        # Actualización de hitboxes
         if self.hitboxes and self.hitboxes.enabled:
             self.hitboxes.enemies = [e for e in self.enemy_manager.enemies if e.enabled]
             self.hitboxes.update()
 
-        # -------------------------
-        # AJUSTE DE SHADERS NOCHE/DÍA
-        # -------------------------
+
+        # Ajuste de shaders
         is_night = self.day_cycle.is_night()
         self.road_manager.set_night(is_night)
         for enemy in self.enemy_manager.enemies:

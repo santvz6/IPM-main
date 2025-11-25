@@ -5,7 +5,7 @@ class Difficulty:
     def __init__(self):
         self.time_elapsed = 0.0
         self.level = 1
-        self.level_interval = 15
+        self.level_interval = 30
 
         # Enemigos
         self.spawn_interval = 2.0

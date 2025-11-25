@@ -11,11 +11,11 @@ class Lives:
         self.heart_texture = heart_texture
         self.hearts = []
 
-        # Crear sprites de corazón
+        # Creamos los sprites de corazón
         for i in range(max_lives):
             heart = Entity(
                 parent=camera.ui,
-                model='quad',
+                model="quad",
                 texture=self.heart_texture,
                 scale=scale,
                 position=(start_pos[0] + i * spacing, start_pos[1], 0),
@@ -38,7 +38,7 @@ class Lives:
         self.update_ui()
 
     def update_ui(self):
-        # Activar/desactivar los sprites según la vida actual
+        # Activamos/desactivamos los sprites según la vida actual
         for i, heart in enumerate(self.hearts):
             heart.enabled = i < self.current_lives
 

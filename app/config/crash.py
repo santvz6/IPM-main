@@ -21,20 +21,20 @@ class Crash:
 
         self.timer += dt
 
-        # Jugador sin movimiento
+        # Detenemos al jugador
         self.game.player.speed = 0
 
-        # Movimiento errático del coche
+        # Movimiento errático del coche (aleatorio)
         self.game.player.x += (random.random() - 0.5) * 0.2
         self.game.player.y += (random.random() - 0.5) * 0.1
         self.game.player.rotation_y += (random.random() - 0.5) * 10
         self.game.player.rotation_z += (random.random() - 0.5) * 10
 
-        # Oscurecer pantalla
+        # Oscurecemos la pantalla
         alpha = min(self.timer / self.duration, 1)
         self.overlay.color = color.rgba32(0,0,0,int(alpha*255))
 
-        # Hacer que el texto crezca suavemente
+        # Hacemos que el texto crezca suavemente
         self.text.enabled = True
         self.text.text = f"TE HAS ESTRELLADO\n{(self.game.player.z*10**-1):.0f}m"
         self.text.scale = lerp(self.text.scale, Vec3(3, 3, 3), dt * 2)

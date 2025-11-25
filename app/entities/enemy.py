@@ -32,23 +32,21 @@ class Enemy(Entity):
         self.lane_x = lane_x
 
 
-    # ---------------------------------------------------------
-    #   UPDATE DEL ENEMIGO (MOVIMIENTO + RECICLADO)
-    # ---------------------------------------------------------
+
     def update(self):
-        # mover hacia adelante
+        # movimineto hacia adelante
         self.z -= time.dt * self.speed
 
-        # si pasa del jugador → destruir
+        # si pasa del jugador lo destruimos
         if self.z < self.game.player.z - 30:
             self.enabled = False
 
-    # ---------------------------------------------------------
-    #   RECICLAR ENEMIGO DELANTE
-    # ---------------------------------------------------------
+  
     def recycle(self):
+        """ En un principio reciclabamos los Enemigos.
+        Al implementar dificultad gradual debemos generar nuevos Enemigos (ya no lo usamos).
+        """
         game = self.game
-
         recycle_z = game.player.z + game.enemy_spawn_distance
 
         # Banda cercana para evitar muros
@@ -68,7 +66,7 @@ class Enemy(Entity):
                 self.z = recycle_z
                 return
 
-        # Si no se pudo reciclar → destruir
+        # Si no se pudo reciclar lo destruimos
         if self.z < game.player.z - 200:
             destroy(self)
             game.enemies.remove(self)

@@ -19,7 +19,7 @@ class CoronaPower(_Power):
         if self.activated:
             return 
         
-        # steering especial del jugador
+        # Activación de la habilidad
         if self.game.player.steering == 9999 or held_keys["h"]:
             self.activated = True
             print("¡Poder Corona obtenido!")
@@ -35,7 +35,7 @@ class CoronaPower(_Power):
         self.game.player.initial_speed = self.game.player.speed * 2.5
         camera.fov = 100
 
-        # Hacer que la botella sea hija de la cámara
+        # Hacemos que la botella sea hija de la cámara
         self.parent = camera
         self.position = Vec3(0.0, -0.5, 2)  # frente a la cámara
         self.rotation = Vec3(0, 0, 0)       # vertical
@@ -120,14 +120,12 @@ class DrunkEffect(Entity):
             color=color.rgba(255,0,0,0.1)
         )
 
-        # --- Shake ---
+
         self.start_time = time.time()
         self._shake_camera()
-
-        # --- Empieza parpadeo ---
         self._flash_red()
 
-        # --- Finaliza efecto después de duración ---
+        # Finaliza el efecto después de la duración 
         invoke(self.end_effect, delay=self.duration)
 
     # --- Shake de cámara ---
@@ -158,7 +156,7 @@ class DrunkEffect(Entity):
         self.overlay.color = color.rgba(0,0,255,0.1)
         invoke(self._flash_red, delay=0.2)
 
-    # --- Terminar efecto ---
+    # --- Terminar el efecto ---
     def end_effect(self):
         self.active = False
         camera.position = Vec3(0, 1.5, 0)  # reset

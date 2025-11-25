@@ -26,9 +26,7 @@ class MusicPlayer:
         self.current_index = 0
         self._load_current_audio()
 
-    # ---------------------------------------------------------
-    #   Funciones de control
-    # ---------------------------------------------------------
+
     def _load_current_audio(self):
         """Carga la canción actual y reproducir en loop infinito"""
         song_path = os.path.join(self.folder_path, self.songs[self.current_index])
