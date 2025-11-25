@@ -1,15 +1,14 @@
 # IPM – Juego de Conducción 3D Controlado con Gestos
 
-¡Bienvenido a **IPM**!  
-Un juego de carreras en 3D desarrollado con **Ursina**, donde el jugador controla un coche utilizando **gestos de las manos detectados con MediaPipe** para simular el giro del volante.
+Bienvenido a nuestro juego de conducción en 3D desarrollado con **Ursina**, donde podremos controlar un coche utilizando **gestos de las manos detectados con MediaPipe** para simular el giro del volante.
+
+![Driving Demo GIF](.github/demo.gif)
 
 ---
 
-## 🎮 Descripción
-
 En este juego:
 
-- Conduces un coche en **primera persona**, con tablero y volante visibles.  
+- Conduces un coche en **primera persona**, con salpicadero y volante visibles.  
 - Evitas **enemigos y obstáculos** generados dinámicamente.  
 - Recolectas **power-ups**, incluyendo el `CoronaPower`, que te dan ventajas temporales.  
 - El juego incluye un **ciclo día/noche**, con cambios de iluminación y shaders dinámicos.  
@@ -18,7 +17,7 @@ En este juego:
 
 ---
 
-## 🛠 Tecnologías utilizadas
+## Tecnologías utilizadas
 
 - **Python 3.12+**  
 - **Ursina Engine** (3D engine para Python)  
@@ -26,12 +25,3 @@ En este juego:
 - **OpenGL / Shaders** para iluminación y efectos de día/noche  
 
 ---
-
-## 📥 Instalación
-
-1. Clona el repositorio:
-
-```bash
-git clone https://github.com/santvz6/IPM-main.git
-cd IPM-main
-```
